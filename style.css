@@ -13,7 +13,44 @@ header {
 	width: 100%;
 	min-height: 200px;
 	display: flex;
-	align-items: center;
-	justify-content: center;
 	flex-direction: column;
+}
+
+#headerTop {
+	width: 100%;
+	justify-content: flex-start;
+	padding: 10px;
+}
+
+#icon-rick {
+	height: 25px;
+}
+
+#headerMid {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	gap: 15px;
+}
+
+h1 {
+}
+
+input {
+	border: #ddd solid 1px;
+	float: left;
+	padding: 5px 20px 5px 5px;
+}
+
+#lupa {
+	float: left;
+	margin: 3px 0px 0px -20px;
+	cursor: pointer;
+}
+
+#lupa:after {
+	font-family: FontAwesome;
+	font-size: 14px;
+	content: '\f002';
 }
