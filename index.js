@@ -34,7 +34,23 @@ async function getCharacter() {
 		containerCards.innerHTML = '';
 		characters.forEach((item) => {
 			containerCards.innerHTML += `
-            <div>${item.name}</div>
+            <div class='card'>
+                <img id='imageCharacter' src='${item.image}'/>
+                <div id='content'>
+                    <h3>${item.name}</h3>
+                    <div id='status'>
+                        <div class='statusColor ${
+													item.status == 'Dead'
+														? 'dead'
+														: item.status == 'Alive'
+														? 'alive'
+														: 'unknown'
+												}'>
+                        </div>
+                        <span>${item.status}</span>
+                    </div>
+                </div>
+            </div>
             `;
 		});
 	} catch (error) {
@@ -61,7 +77,7 @@ async function getNextPage() {
 		containerCards.innerHTML = '';
 		characters.forEach((item) => {
 			containerCards.innerHTML += `
-            <div>${item.name}</div>
+            <div class='card'>${item.name}</div>
             `;
 		});
 	} catch (error) {
@@ -83,7 +99,7 @@ async function getPrevPage() {
 		containerCards.innerHTML = '';
 		characters.forEach((item) => {
 			containerCards.innerHTML += `
-            <div>${item.name}</div>
+            <div class='card'>${item.name}</div>
             `;
 		});
 	} catch (error) {
@@ -99,7 +115,7 @@ function searchCharacter() {
 
 	filteredCharacters.forEach((item) => {
 		containerCards.innerHTML += `
-        <div>${item.name}</div>
+        <div class='card'>${item.name}</div>
         `;
 	});
 	console.log(characters);
