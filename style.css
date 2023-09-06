@@ -1,7 +1,12 @@
+@font-face {
+	src: url('assets/get_schwifty.ttf');
+	font-family: 'get_schwifty';
+}
 * {
 	padding: 0;
 	margin: 0;
 	box-sizing: border-box;
+	font-family: 'Courier New', Courier, monospace;
 }
 
 body {
@@ -10,7 +15,7 @@ body {
 }
 
 header {
-	width: 100%;
+	width: 100vw;
 	min-height: 200px;
 	display: flex;
 	flex-direction: column;
@@ -18,7 +23,8 @@ header {
 
 #headerTop {
 	width: 100%;
-	justify-content: flex-start;
+	display: flex;
+	justify-content: space-between;
 	padding: 10px;
 }
 
@@ -32,13 +38,22 @@ header {
 	align-items: center;
 	flex-direction: column;
 	gap: 15px;
+	width: 100%;
 }
 
 h1 {
+	color: #97ce4c;
+	font-family: 'get_schwifty';
+}
+
+#divInput {
+	width: 30%;
 }
 
 input {
 	border: #ddd solid 1px;
+	border-radius: 3px;
+	width: 100%;
 	float: left;
 	padding: 5px 20px 5px 5px;
 }
@@ -53,4 +68,19 @@ input {
 	font-family: FontAwesome;
 	font-size: 14px;
 	content: '\f002';
+	color: #7ba73e;
+}
+
+.pages {
+	display: flex;
+	gap: 10px;
+	align-items: center;
+}
+
+button {
+	background-color: #97ce4c;
+	min-width: 75px;
+	padding: 5px 20px;
+	border: none;
+	border-radius: 3px;
 }
