@@ -19,15 +19,28 @@
 					src="assets/icons8-rick-sanchez-100.png"
 					alt="icon-rick"
 				/>
+				<img
+					id="icon-rick"
+					src="assets/icons8-morty-100.png"
+					alt="icon-morty"
+				/>
 			</div>
 			<div id="headerMid">
 				<h1>The Rick and Morty API</h1>
-				<form action="">
-					<input type="text" />
+				<div id="divInput">
+					<input id="search" placeholder="Search..." type="text" />
 					<div id="lupa"></div>
-				</form>
+				</div>
+				<div class="pages">
+					<button id="prevPage">Prev</button>
+					<p id="numberPage"></p>
+					<button id="nextPage">Next</button>
+				</div>
 			</div>
 		</header>
+		<main>
+			<div class="container-cards"></div>
+		</main>
 		<script src="index.js"></script>
 	</body>
 </html>
