@@ -27,32 +27,44 @@ async function getCharacter() {
 		const response = await fetch(
 			'https://rickandmortyapi.com/api/character'
 		).then((response) => response.json());
+
 		characters = response.results;
 		nextPage = response.info.next;
 		numberPage++;
 		page.innerHTML = `${numberPage}/42`;
 		containerCards.innerHTML = '';
-		characters.forEach((item) => {
+		for (const character of characters) {
+			const lastSeen = await lastEpisode(character);
+			const firstWord = character.species.split(' ');
 			containerCards.innerHTML += `
-            <div class='card'>
-                <img id='imageCharacter' src='${item.image}'/>
-                <div id='content'>
-                    <h3>${item.name}</h3>
-                    <div id='status'>
-                        <div class='statusColor ${
-													item.status == 'Dead'
-														? 'dead'
-														: item.status == 'Alive'
-														? 'alive'
-														: 'unknown'
-												}'>
-                        </div>
-                        <span>${item.status}</span>
-                    </div>
-                </div>
-            </div>
-            `;
-		});
+						<div class='card'>
+							<img id='imageCharacter' src='${character.image}'/>
+							<div id='content'>
+								<h3>${character.name}</h3>
+								<div id='status'>
+									<div class='statusColor ${
+										character.status == 'Dead'
+											? 'dead'
+											: character.status == 'Alive'
+											? 'alive'
+											: 'unknown'
+									}'>
+									</div>
+									<p>${character.status} -</p>
+									<p>${firstWord[0]}</p>						
+								</div>
+								<div id='location'>
+									<p>Last known location</p>
+									<span>${character.location.name}</span>
+								</div>
+								<div id='episode'>
+									<p>Last seen on</p>
+									<span>${lastSeen}</span>
+								</div>
+							</div>
+						</div>
+						`;
+		}
 	} catch (error) {
 		console.log('Erro no get!');
 	}
@@ -75,11 +87,38 @@ async function getNextPage() {
 		numberPage++;
 		page.innerHTML = `${numberPage}/42`;
 		containerCards.innerHTML = '';
-		characters.forEach((item) => {
+		for (const character of characters) {
+			const lastSeen = await lastEpisode(character);
+			const firstWord = character.species.split(' ');
 			containerCards.innerHTML += `
-            <div class='card'>${item.name}</div>
-            `;
-		});
+						<div class='card'>
+							<img id='imageCharacter' src='${character.image}'/>
+							<div id='content'>
+								<h3>${character.name}</h3>
+								<div id='status'>
+									<div class='statusColor ${
+										character.status == 'Dead'
+											? 'dead'
+											: character.status == 'Alive'
+											? 'alive'
+											: 'unknown'
+									}'>
+									</div>
+									<p>${character.status} -</p>
+									<p>${firstWord[0]}</p>						
+								</div>
+								<div id='location'>
+									<p>Last known location</p>
+									<span>${character.location.name}</span>
+								</div>
+								<div id='episode'>
+									<p>Last seen on</p>
+									<span>${lastSeen}</span>
+								</div>
+							</div>
+						</div>
+						`;
+		}
 	} catch (error) {
 		console.log('Erro no get!');
 	}
@@ -97,26 +136,92 @@ async function getPrevPage() {
 		numberPage--;
 		page.innerHTML = `${numberPage}/42`;
 		containerCards.innerHTML = '';
-		characters.forEach((item) => {
+		for (const character of characters) {
+			const lastSeen = await lastEpisode(character);
+			const firstWord = character.species.split(' ');
 			containerCards.innerHTML += `
-            <div class='card'>${item.name}</div>
-            `;
-		});
+			<div class='card'>
+				<img id='imageCharacter' src='${character.image}'/>
+				<div id='content'>
+					<h3>${character.name}</h3>
+					<div id='status'>
+						<div class='statusColor ${
+							character.status == 'Dead'
+								? 'dead'
+								: character.status == 'Alive'
+								? 'alive'
+								: 'unknown'
+						}'>
+						</div>
+						<p>${character.status} -</p>
+						<p>${firstWord[0]}</p>						
+					</div>
+					<div id='location'>
+						<p>Last known location</p>
+						<span>${character.location.name}</span>
+					</div>
+					<div id='episode'>
+						<p>Last seen on</p>
+						<span>${lastSeen}</span>
+					</div>
+				</div>
+			</div>
+			`;
+		}
 	} catch (error) {
 		console.log('Erro no get!');
 	}
 }
 
-function searchCharacter() {
+async function searchCharacter() {
 	const filteredCharacters = characters.filter((character) =>
 		character.name.toUpperCase().includes(inputSearch.value.toUpperCase())
 	);
 	containerCards.innerHTML = '';
 
-	filteredCharacters.forEach((item) => {
+	for (const character of filteredCharacters) {
+		const lastSeen = await lastEpisode(character);
+		const firstWord = character.species.split(' ');
 		containerCards.innerHTML += `
-        <div class='card'>${item.name}</div>
-        `;
-	});
+		<div class='card'>
+			<img id='imageCharacter' src='${character.image}'/>
+			<div id='content'>
+				<h3>${character.name}</h3>
+				<div id='status'>
+					<div class='statusColor ${
+						character.status == 'Dead'
+							? 'dead'
+							: character.status == 'Alive'
+							? 'alive'
+							: 'unknown'
+					}'>
+					</div>
+					<p>${character.status} -</p>
+					<p>${firstWord[0]}</p>						
+				</div>
+				<div id='location'>
+					<p>Last known location</p>
+					<span>${character.location.name}</span>
+				</div>
+				<div id='episode'>
+					<p>Last seen on</p>
+					<span>${lastSeen}</span>
+				</div>
+			</div>
+		</div>
+		`;
+	}
 	console.log(characters);
+}
+
+async function lastEpisode(character) {
+	const ep = character.episode.length - 1;
+	try {
+		const response = await fetch(`${character.episode[ep]}`).then((value) =>
+			value.json()
+		);
+		return response.name;
+	} catch (error) {
+		console.log('Erro no Get');
+	}
 }
