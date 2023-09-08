@@ -2,17 +2,21 @@
 	src: url('assets/get_schwifty.ttf');
 	font-family: 'get_schwifty';
 }
+@font-face {
+	src: url('assets/Hey\ Comic.ttf');
+	font-family: 'Hey\ Comic.ttf';
+}
 * {
 	padding: 0;
 	margin: 0;
 	box-sizing: border-box;
-	font-family: 'Courier New', Courier, monospace;
 }
 
 body {
 	height: 100vh;
 	width: 100%;
 	overflow-x: auto;
+	background-color: whitesmoke;
 }
 
 header {
@@ -20,13 +24,16 @@ header {
 	min-height: 200px;
 	display: flex;
 	flex-direction: column;
+	margin-bottom: 30px;
 }
 
 #headerTop {
 	width: 100%;
 	display: flex;
 	justify-content: space-between;
-	padding: 10px;
+	padding: 8px;
+	background-color: black;
+	margin-bottom: 40px;
 }
 
 #icon-rick {
@@ -57,6 +64,7 @@ input {
 	width: 100%;
 	float: left;
 	padding: 5px 20px 5px 5px;
+	font-family: 'Hey\ Comic.ttf';
 }
 
 #lupa {
@@ -84,35 +92,59 @@ button {
 	padding: 5px 20px;
 	border: none;
 	border-radius: 3px;
+	font-family: 'Hey\ Comic.ttf';
 }
-
-/* .container {
-	display: flex;
-	justify-content: center;
-	width: 100vw;
-	padding: 30px;
-} */
 
 .container-cards {
 	width: 100%;
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
-	gap: 10px;
+	gap: 20px;
+	padding: 0 30px;
 }
 
 .card {
 	grid-column: span 1;
 	width: 100%;
-	border: solid 1px black;
 	display: flex;
+	padding: 30px;
+	background-color: #fff;
 	border-radius: 10px;
+	box-shadow: 3px 3px 3px black;
+	align-items: center;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+.card > p {
+	color: rgb(59, 59, 59);
 }
 
 #imageCharacter {
-	width: 50px;
+	width: 50%;
+	border-radius: 5px 0 0 5px;
 }
 #content {
 	width: 50%;
+	display: flex;
+	flex-direction: column;
+	padding: 10px;
+}
+
+#content > h3 {
+	color: #045a25;
+	font-weight: 900;
+}
+#status {
+	display: flex;
+	align-items: center;
+	gap: 5px;
+	margin-bottom: 14px;
+}
+
+#status > p {
+	font-size: 14px;
+	font-weight: 600;
+	white-space: nowrap;
 }
 .statusColor {
 	height: 10px;
@@ -125,9 +157,37 @@ button {
 }
 
 .alive {
-	background-color: lightgreen;
+	background-color: #048b38;
 }
 
 .unknown {
 	background-color: lightgray;
+}
+
+#location {
+	display: flex;
+	flex-direction: column;
+	gap: 3px;
+	margin-bottom: 14px;
+}
+
+#location > p {
+	font-size: 14px;
+	color: #afafaf;
+	font-weight: 600;
+}
+
+#location > span {
+	font-size: 15px;
+	font-weight: 600;
+}
+#episode > p {
+	font-size: 14px;
+	color: #afafaf;
+	font-weight: 600;
+}
+
+#episode > span {
+	font-size: 15px;
+	font-weight: 600;
 }
