@@ -81,7 +81,7 @@ async function getNextPage() {
 		characters = response.results;
 		prevPage = response.info.prev;
 		nextPage = response.info.next;
-		if (numberPage == 42) {
+		if (numberPage === 42) {
 			return;
 		}
 		numberPage++;
