@@ -7,6 +7,8 @@ const containerCards = document.querySelector('.container-cards');
 
 const page = document.querySelector('#numberPage');
 
+const footerTop = document.getElementById('top');
+
 let prevPage;
 let nextPage;
 
@@ -21,6 +23,8 @@ buttonNextPage.addEventListener('click', getNextPage);
 buttonPrevPage.addEventListener('click', getPrevPage);
 
 inputSearch.addEventListener('input', searchCharacter);
+
+fillFooter();
 
 async function getCharacter() {
 	try {
@@ -224,4 +228,23 @@ async function lastEpisode(character) {
 	} catch (error) {
 		console.log('Erro no Get');
 	}
+}
+
+async function fillFooter() {
+	try {
+		const responseCharacters = await fetch(
+			'https://rickandmortyapi.com/api/character'
+		).then((value) => value.json());
+		const responseLocations = await fetch(
+			'https://rickandmortyapi.com/api/location'
+		).then((value) => value.json());
+		const responseEpisodes = await fetch(
+			'https://rickandmortyapi.com/api/episode'
+		).then((value) => value.json());
+		footerTop.innerHTML = `
+			<p>Personagens: ${responseCharacters.info.count}</p>
+			<p>Localizações: ${responseLocations.info.count}</p>
+			<p>Episódios: ${responseEpisodes.info.count}</p>
+		`;
+	} catch (error) {}
 }
