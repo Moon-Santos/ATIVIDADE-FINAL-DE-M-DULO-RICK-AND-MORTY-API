@@ -1,41 +1,53 @@
 const inputSearch = document.getElementById('search');
+const magnifyingGlass = document.getElementById('lupa');
 
 const buttonPrevPage = document.getElementById('prevPage');
 const buttonNextPage = document.getElementById('nextPage');
 
 const containerCards = document.querySelector('.container-cards');
 
-const page = document.querySelector('#numberPage');
+const numberPage = document.querySelector('#numberPage');
 
 const footerTop = document.getElementById('top');
 
-let prevPage;
-let nextPage;
-
-let numberPage = 0;
+let currentPage = 1;
 
 let characters = [];
 
-getCharacter();
+getCharacters(currentPage);
 
-buttonNextPage.addEventListener('click', getNextPage);
-
-buttonPrevPage.addEventListener('click', getPrevPage);
-
-inputSearch.addEventListener('input', searchCharacter);
+inputSearch.addEventListener('change', searchCharacter);
+magnifyingGlass.addEventListener('click', searchCharacter);
 
 fillFooter();
 
-async function getCharacter() {
+async function getCharacters(page) {
 	try {
-		const response = await fetch(
-			'https://rickandmortyapi.com/api/character'
-		).then((response) => response.json());
+		buttonPrevPage.setAttribute('disabled', true);
+		buttonNextPage.setAttribute('disabled', true);
+		let endpoint = 'https://rickandmortyapi.com/api/character';
+		if (page != undefined) endpoint += `?page=${page}`;
+
+		inputSearch.value = '';
+
+		const response = await fetch(`${endpoint}`).then((response) =>
+			response.json()
+		);
+
+		if (page === 1) {
+			buttonPrevPage.setAttribute('disabled', true);
+		} else {
+			buttonPrevPage.removeAttribute('disabled');
+		}
+
+		if (currentPage === 42) {
+			buttonNextPage.setAttribute('disabled', true);
+		} else {
+			buttonNextPage.removeAttribute('disabled');
+		}
 
 		characters = response.results;
-		nextPage = response.info.next;
-		numberPage++;
-		page.innerHTML = `${numberPage}/42`;
+		numberPage.innerHTML = `${page}/42`;
 		containerCards.innerHTML = '';
 		for (const character of characters) {
 			const lastSeen = await lastEpisode(character);
@@ -68,109 +80,6 @@ async function getCharacter() {
 							</div>
 						</div>
 						`;
-		}
-	} catch (error) {
-		console.log('Erro no get!');
-	}
-}
-
-async function getNextPage() {
-	try {
-		if (!nextPage) {
-			return;
-		}
-		const response = await fetch(`${nextPage}`).then((response) =>
-			response.json()
-		);
-		characters = response.results;
-		prevPage = response.info.prev;
-		nextPage = response.info.next;
-		if (numberPage === 42) {
-			return;
-		}
-		numberPage++;
-		page.innerHTML = `${numberPage}/42`;
-		containerCards.innerHTML = '';
-		for (const character of characters) {
-			const lastSeen = await lastEpisode(character);
-			const firstWord = character.species.split(' ');
-			containerCards.innerHTML += `
-						<div class='card'>
-							<img id='imageCharacter' src='${character.image}'/>
-							<div id='content'>
-								<h3>${character.name}</h3>
-								<div id='status'>
-									<div class='statusColor ${
-										character.status == 'Dead'
-											? 'dead'
-											: character.status == 'Alive'
-											? 'alive'
-											: 'unknown'
-									}'>
-									</div>
-									<p>${character.status} -</p>
-									<p>${firstWord[0]}</p>						
-								</div>
-								<div id='location'>
-									<p>Last known location</p>
-									<span>${character.location.name}</span>
-								</div>
-								<div id='episode'>
-									<p>Last seen on</p>
-									<span>${lastSeen}</span>
-								</div>
-							</div>
-						</div>
-						`;
-		}
-	} catch (error) {
-		console.log('Erro no get!');
-	}
-}
-
-async function getPrevPage() {
-	try {
-		if (!prevPage) return;
-		const response = await fetch(`${prevPage}`).then((response) =>
-			response.json()
-		);
-		characters = response.results;
-		prevPage = response.info.prev;
-		nextPage = response.info.next;
-		numberPage--;
-		page.innerHTML = `${numberPage}/42`;
-		containerCards.innerHTML = '';
-		for (const character of characters) {
-			const lastSeen = await lastEpisode(character);
-			const firstWord = character.species.split(' ');
-			containerCards.innerHTML += `
-			<div class='card'>
-				<img id='imageCharacter' src='${character.image}'/>
-				<div id='content'>
-					<h3>${character.name}</h3>
-					<div id='status'>
-						<div class='statusColor ${
-							character.status == 'Dead'
-								? 'dead'
-								: character.status == 'Alive'
-								? 'alive'
-								: 'unknown'
-						}'>
-						</div>
-						<p>${character.status} -</p>
-						<p>${firstWord[0]}</p>						
-					</div>
-					<div id='location'>
-						<p>Last known location</p>
-						<span>${character.location.name}</span>
-					</div>
-					<div id='episode'>
-						<p>Last seen on</p>
-						<span>${lastSeen}</span>
-					</div>
-				</div>
-			</div>
-			`;
 		}
 	} catch (error) {
 		console.log('Erro no get!');
@@ -248,3 +157,12 @@ async function fillFooter() {
 		`;
 	} catch (error) {}
 }
+
+const controls = {
+	prev() {
+		getCharacters(--currentPage);
+	},
+	next() {
+		getCharacters(++currentPage);
+	},
+};
