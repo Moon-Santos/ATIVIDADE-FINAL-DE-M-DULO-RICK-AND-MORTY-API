@@ -17,6 +17,7 @@ body {
 	width: 100%;
 	overflow-x: auto;
 	background-color: whitesmoke;
+	min-width: 500px;
 }
 
 header {
@@ -210,4 +211,21 @@ footer {
 	display: flex;
 	gap: 10px;
 	text-transform: uppercase;
+}
+
+@media (max-width: 1200px) {
+	.container-cards {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+@media (max-width: 800px) {
+	.container-cards {
+		grid-template-columns: repeat(1, 1fr);
+	}
+	#lupa {
+		display: none;
+	}
+	body {
+		font-size: 24px !important;
+	}
 }
