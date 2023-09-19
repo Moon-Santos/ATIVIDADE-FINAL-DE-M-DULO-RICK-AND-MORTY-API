@@ -234,3 +234,10 @@ footer {
 		font-size: 24px !important;
 	}
 }
+
+@media (max-width: 700px) {
+	footer {
+		font-size: 10px !important;
+		text-transform: lowercase;
+	}
+}
