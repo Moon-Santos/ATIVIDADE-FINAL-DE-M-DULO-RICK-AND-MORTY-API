@@ -3,6 +3,12 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+			rel="stylesheet"
+			integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+			crossorigin="anonymous"
+		/>
 		<link rel="stylesheet" href="style.css" />
 		<link
 			rel="stylesheet"
@@ -13,38 +19,57 @@
 	</head>
 	<body>
 		<header>
-			<div id="headerTop">
-				<img
-					id="icon-rick"
-					src="assets/icons8-rick-sanchez-100.png"
-					alt="icon-rick"
-				/>
-				<img
-					id="icon-rick"
-					src="assets/icons8-morty-100.png"
-					alt="icon-morty"
-				/>
-			</div>
-			<div id="headerMid">
-				<h1>The Rick and Morty API</h1>
-				<div id="divInput">
-					<input id="search" placeholder="Search..." type="text" />
-					<div id="lupa"></div>
-				</div>
-				<div class="pages">
-					<button id="prevPage" onclick="controls.prev()">Prev</button>
-					<p id="numberPage"></p>
-					<button id="nextPage" onclick="controls.next()">Next</button>
-				</div>
-			</div>
+			<img
+				id="rickAndMorty"
+				src="assets/RICK_MORTY_ICON.png"
+				alt="rick-and-morty-icon"
+			/>
 		</header>
-		<div class="container-cards"></div>
-
-		<footer>
-			<div id="top"></div>
+		<div class="container-fluid">
+			<div
+				class="row d-flex flex-column justify-content-center align-items-center"
+			>
+				<div
+					class="col-lg-8 col-sm-12 d-flex flex-column justify-content-center align-items-center"
+				>
+					<p id="principal-title" class="h1">The Rick and Morty API</p>
+				</div>
+				<div
+					class="col-lg-8 col-sm-12 d-flex flex-column justify-content-center align-items-center"
+				>
+					<input
+						id="search"
+						placeholder="Search..."
+						class="input w-50"
+						type="text"
+					/>
+				</div>
+				<div
+					class="col-lg-8 col-sm-12 d-flex gap-2 justify-content-center align-items-center my-4"
+				>
+					<button
+						id="prevPage"
+						onclick="controls.prev()"
+						class="btn btn-success col-3"
+					>
+						Previous Page
+					</button>
+					<div class="h6 text-success" id="numberPage"></div>
+					<button
+						id="nextPage"
+						onclick="controls.next()"
+						class="btn btn-success col-3"
+					>
+						Next Page
+					</button>
+				</div>
+			</div>
+			<div id="principal-container" class="row"></div>
+		</div>
+		<footer class="d-flex flex-column">
+			<div id="top" class="d-flex flex-column align-items-center"></div>
 			<div id="bottom">Desenvolvido por: Monã dos Santos em 2023</div>
 		</footer>
-
 		<script src="index.js"></script>
 	</body>
 </html>
