@@ -1,10 +1,9 @@
 const inputSearch = document.getElementById('search');
-const magnifyingGlass = document.getElementById('lupa');
 
 const buttonPrevPage = document.getElementById('prevPage');
 const buttonNextPage = document.getElementById('nextPage');
 
-const containerCards = document.querySelector('.container-cards');
+const containerCards = document.querySelector('#principal-container');
 
 const numberPage = document.querySelector('#numberPage');
 
@@ -17,7 +16,6 @@ let characters = [];
 getCharacters(currentPage);
 
 inputSearch.addEventListener('change', searchCharacter);
-magnifyingGlass.addEventListener('click', searchCharacter);
 
 fillFooter();
 
@@ -53,29 +51,67 @@ async function getCharacters(page) {
 			const lastSeen = await lastEpisode(character);
 			const firstWord = character.species.split(' ');
 			containerCards.innerHTML += `
-						<div class='card'>
-							<img id='imageCharacter' src='${character.image}'/>
-							<div id='content'>
-								<h3>${character.name}</h3>
-								<div id='status'>
-									<div class='statusColor ${
-										character.status == 'Dead'
-											? 'dead'
-											: character.status == 'Alive'
-											? 'alive'
-											: 'unknown'
-									}'>
+						<div data-bs-toggle="modal" data-bs-target="#exampleModal-${
+							character.id
+						}" class='card col-lg-3 col-sm-12 d-flex flex-row'>
+								<img id='imageCharacter' src='${character.image}'/>
+								<div id='content d-flex flex-column'>
+									<h3 id='character-name'>${character.name}</h3>
+									<div id='status' class='d-flex align-items-center flex-row text-center'>
+										<div class='statusColor ${
+											character.status == 'Dead'
+												? 'dead'
+												: character.status == 'Alive'
+												? 'alive'
+												: 'unknown'
+										}'>
+										</div>
+										<div id='character-status'>${character.status} -</div>
+										<div id='character-firstWord'>${firstWord[0]}</div>						
 									</div>
-									<p>${character.status} -</p>
-									<p>${firstWord[0]}</p>						
+									<div id='location'>
+										<p id='lastLocation'>Last known location</p>
+										<span id='locationName'>${character.location.name}</span>
+									</div>
+									<div id='episode'>
+										<p id='lastSeenOn'>Last seen on</p>
+										<span id='lastSeen'>${lastSeen}</span>
+									</div>
 								</div>
-								<div id='location'>
-									<p>Last known location</p>
-									<span>${character.location.name}</span>
+							
+						</div>
+
+						<div class="modal fade" id="exampleModal-${
+							character.id
+						}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+								<div class="modal-header">
+									<h1 class="modal-title fs-5" id="exampleModalLabel">${character.name}</h1>
+									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 								</div>
-								<div id='episode'>
-									<p>Last seen on</p>
-									<span>${lastSeen}</span>
+								<div class="modal-body d-flex justify-content-center align-items-center flex-column">
+									<img id='imageCharacterModal' src='${character.image}'/>
+									<div id='status-modal' class='d-flex align-items-center flex-row text-center'>
+										<div class='statusColor ${
+											character.status == 'Dead'
+												? 'dead'
+												: character.status == 'Alive'
+												? 'alive'
+												: 'unknown'
+										}'>
+										</div>
+										<div id='character-status'>${character.status} -</div>
+										<div id='character-firstWord'>${firstWord[0]}</div>						
+									</div>
+								<div id='location-modal'>
+									<div>Last known location -&nbsp</div>
+									<div> ${character.location.name}</div>
+								</div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+								</div>
 								</div>
 							</div>
 						</div>
@@ -96,32 +132,33 @@ async function searchCharacter() {
 		const lastSeen = await lastEpisode(character);
 		const firstWord = character.species.split(' ');
 		containerCards.innerHTML += `
-		<div class='card'>
-			<img id='imageCharacter' src='${character.image}'/>
-			<div id='content'>
-				<h3>${character.name}</h3>
-				<div id='status'>
-					<div class='statusColor ${
-						character.status == 'Dead'
-							? 'dead'
-							: character.status == 'Alive'
-							? 'alive'
-							: 'unknown'
-					}'>
-					</div>
-					<p>${character.status} -</p>
-					<p>${firstWord[0]}</p>						
-				</div>
-				<div id='location'>
-					<p>Last known location</p>
-					<span>${character.location.name}</span>
-				</div>
-				<div id='episode'>
-					<p>Last seen on</p>
-					<span>${lastSeen}</span>
-				</div>
-			</div>
-		</div>
+		<div class='card col-lg-3 col-sm-12 d-flex flex-row'>
+								<img id='imageCharacter' src='${character.image}'/>
+								<div id='content d-flex flex-column'>
+									<h3 id='character-name'>${character.name}</h3>
+									<div id='status' class='d-flex align-items-center flex-row text-center'>
+										<div class='statusColor ${
+											character.status == 'Dead'
+												? 'dead'
+												: character.status == 'Alive'
+												? 'alive'
+												: 'unknown'
+										}'>
+										</div>
+										<div id='character-status'>${character.status} -</div>
+										<div id='character-firstWord'>${firstWord[0]}</div>						
+									</div>
+									<div id='location'>
+										<p id='lastLocation'>Last known location</p>
+										<span id='locationName'>${character.location.name}</span>
+									</div>
+									<div id='episode'>
+										<p id='lastSeenOn'>Last seen on</p>
+										<span id='lastSeen'>${lastSeen}</span>
+									</div>
+								</div>
+							
+						</div>
 		`;
 	}
 	console.log(characters);
@@ -151,9 +188,9 @@ async function fillFooter() {
 			'https://rickandmortyapi.com/api/episode'
 		).then((value) => value.json());
 		footerTop.innerHTML = `
-			<p>Personagens: ${responseCharacters.info.count}</p>
-			<p>Localizações: ${responseLocations.info.count}</p>
-			<p>Episódios: ${responseEpisodes.info.count}</p>
+			<a class='underline' target='blank' href='https://rickandmortyapi.com/documentation/#get-all-characters'>Personagens: ${responseCharacters.info.count}</a>
+			<a class='underline' target='blank' href='https://rickandmortyapi.com/documentation/#get-all-locations'>Localizações: ${responseLocations.info.count}</a>
+			<a class='underline' target='blank' href='https://rickandmortyapi.com/documentation/#get-all-episodes'>Episódios: ${responseEpisodes.info.count}</a>
 		`;
 	} catch (error) {}
 }
